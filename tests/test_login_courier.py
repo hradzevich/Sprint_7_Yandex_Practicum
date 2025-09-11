@@ -1,0 +1,71 @@
+import pytest
+import allure
+from courier_methods import CourierMethods
+from generators import *
+from data import Messages
+from helper import *
+
+
+class TestLoginCourier:
+    @allure.title("Успешный логин существующего курьера")
+    @allure.description(
+        "Тест проверяет, что после создания курьера можно успешно выполнить логин "
+        "с передачей всех обязательных полей (login, password). Ожидается код 200 и наличие поля 'id' в ответе."
+    )
+    def test_login_existing_courier_success(self, courier_registration_body):
+        with allure.step("Создание нового курьера"):
+            _, courier_data = (
+                CourierMethods.register_new_courier_and_return_courier_data(
+                    courier_registration_body
+                )
+            )
+        with allure.step("Логин нового курьера"):
+            credentials = {
+                "login": courier_data["login"],
+                "password": courier_data["password"],
+            }
+            login_response = CourierMethods.login_courier(credentials)
+
+        with allure.step("Проверяем код ответа"):
+            assert (
+                login_response.status_code == 200
+            ), f"Ожидали статус-код 200, получили {login_response.status_code}"
+
+        with allure.step("Проверяем тело ответа"):
+            assert (
+                "id" in login_response.json()
+            ), f"Ожидали наличие ключа 'id' в ответе, получили {login_response.json()}"
+
+    @allure.title("Логин курьера с неверным логином или паролем")
+    @allure.description(
+        "Тест проверяет, что при попытке логина с неверным login или password "
+        "API возвращает код 404 и корректное сообщение об ошибкею"
+    )
+    @pytest.mark.parametrize("key", ["login", "password"])
+    def test_login_courier_with_wrong_login_or_password_error(
+        self, key, courier_registration_body
+    ):
+        with allure.step("Создание нового курьера"):
+            _, courier_data = (
+                CourierMethods.register_new_courier_and_return_courier_data(
+                    courier_registration_body
+                )
+            )
+        with allure.step(f"Логин курьера c неправильным {key}"):
+            credentials = {
+                "login": courier_data["login"],
+                "password": courier_data["password"],
+            }
+            invalid_credentials = modify_courier_data(credentials, key)
+            login_response = CourierMethods.login_courier(invalid_credentials)
+
+        with allure.step("Проверяем код ответа"):
+            assert (
+                login_response.status_code == 404
+            ), f"Ожидали статус-код 404, получили {login_response.status_code}"
+
+        with allure.step("Проверяем тело ответа"):
+            assert (
+                login_response.json()["message"]
+                == Messages.WRONG_CREDENTIALS_ERROR_MESSAGE
+            ), f"Ожидали тело ответа: {Messages.WRONG_CREDENTIALS_ERROR_MESSAGE}, получили: {login_response.json()['message']}"

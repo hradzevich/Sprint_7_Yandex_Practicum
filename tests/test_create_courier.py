@@ -86,5 +86,5 @@ class TestCreateCourier:
         with allure.step("Проверяем тело ответа"):
             assert (
                 register_response.json()["message"]
-                == Messages.NOT_ALL_INFO_FOR_REG_MESSAGE
-            ), f"Ожидали тело ответа: {Messages.NOT_ALL_INFO_FOR_REG_MESSAGE}, получили: {register_response.json()['message']}"
+                == Messages.NOT_ALL_INFO_FOR_REG_ERROR_MESSAGE
+            ), f"Ожидали тело ответа: {Messages.NOT_ALL_INFO_FOR_REG_ERROR_MESSAGE}, получили: {register_response.json()['message']}"
