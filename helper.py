@@ -7,7 +7,7 @@ fake = Faker("ru_RU")
 # Генерирует необходимые для данные создания курьера
 def generate_courier_data():
     first_name = fake.first_name()
-    login = first_name + r.randint(1, 100)
+    login = first_name + str(r.randint(1, 100))
     password = fake.password(
         length=10,
         special_chars=True,

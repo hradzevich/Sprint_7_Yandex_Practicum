@@ -10,11 +10,12 @@ class CourierMethods:
     def register_new_courier_and_return_courier_data(payload):
         register_response = requests.post(CREATE_COURIER, data=payload)
         if register_response.status_code == 201:
-            return {
+            courier_data = {
                 "login": payload["login"],
                 "password": payload["password"],
                 "first_name": payload["firstName"],
             }
+        return register_response, courier_data
 
     @staticmethod
     @allure.step("Логин курьера в системе")
