@@ -1,9 +1,9 @@
-import allure
-from helper import *
+class Messages:
+    # Успешное создание учетной записи
+    COURIER_SUCCESFULLY_CREATED_MESSAGE = {"ok": True}
 
+    # Текст сообщения при попытке создать курьера с существующим логином
+    EXISTING_LOGIN_ERROR_MESSAGE = "Этот логин уже используется"
 
-@allure.step("Получаем body для регистрации нового курьера")
-def courier_registration_body():
-    first_name, login, password = generate_courier_data()
-    payload = {"login": login, "password": password, "firstName": first_name}
-    return payload
+    # Текст сообщения при попытке создать курьера без логина или пароля
+    NOT_ALL_INFO_FOR_REG_MESSAGE = "Недостаточно данных для создания учетной записи"
