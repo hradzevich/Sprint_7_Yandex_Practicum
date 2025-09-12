@@ -39,7 +39,7 @@ class TestLoginCourier:
     @allure.title("Логин курьера с неверным логином или паролем")
     @allure.description(
         "Тест проверяет, что при попытке логина с неверным login или password "
-        "API возвращает код 404 и корректное сообщение об ошибкею"
+        "API возвращает код 404 и корректное сообщение об ошибке."
     )
     @pytest.mark.parametrize("key", ["login", "password"])
     def test_login_courier_with_wrong_login_or_password_error(
@@ -68,4 +68,40 @@ class TestLoginCourier:
             assert (
                 login_response.json()["message"]
                 == Messages.WRONG_CREDENTIALS_ERROR_MESSAGE
-            ), f"Ожидали тело ответа: {Messages.WRONG_CREDENTIALS_ERROR_MESSAGE}, получили: {login_response.json()['message']}"
+            ), f"Ожидали в теле ответа: {Messages.WRONG_CREDENTIALS_ERROR_MESSAGE}, получили: {login_response.json()['message']}"
+
+    @allure.title("Логин курьера при отсутствии логина или пароля")
+    @allure.description(
+        "Тест проверяет, что при попытке логина без login или password "
+        "API возвращает код 404 и корректное сообщение об ошибке."
+    )
+    @pytest.mark.parametrize("key", ["login", "password"])
+    def test_login_courier_with_no_login_or_password_error(
+        self, key, courier_registration_body
+    ):
+        with allure.step("Создание нового курьера"):
+            _, courier_data = (
+                CourierMethods.register_new_courier_and_return_courier_data(
+                    courier_registration_body
+                )
+            )
+        with allure.step(f"Логин курьера без {key}"):
+            credentials = {
+                "login": courier_data["login"],
+                "password": courier_data["password"],
+            }
+            empty_credentials = set_required_field_of_courier_data_empty(
+                credentials, key
+            )
+            login_response = CourierMethods.login_courier(empty_credentials)
+
+        with allure.step("Проверяем код ответа"):
+            assert (
+                login_response.status_code == 400
+            ), f"Ожидали статус-код 400, получили {login_response.status_code}"
+
+        with allure.step("Проверяем тело ответа"):
+            assert (
+                login_response.json()["message"]
+                == Messages.EMPTY_CREDENTIALS_ERROR_MESSAGE
+            ), f"Ожидали в теле ответа: {Messages.EMPTY_CREDENTIALS_ERROR_MESSAGE}, получили: {login_response.json()['message']}"

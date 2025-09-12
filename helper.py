@@ -21,3 +21,11 @@ def modify_courier_data(original_data, key):
             lower_case=True,
         )
     return data
+
+
+# Функция изменяет данные зарегистрированного курьера и заменяет значение указанного ключа на пустое.
+# Используется для тестирования сценариев с пустым логином/паролем
+def set_required_field_of_courier_data_empty(original_data, key):
+    data = original_data.copy()
+    data[key] = ""
+    return data

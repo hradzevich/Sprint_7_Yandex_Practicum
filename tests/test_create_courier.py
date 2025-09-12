@@ -6,13 +6,43 @@ from data import Messages
 
 
 class TestCreateCourier:
-    @allure.title("Регистрация нового курьера проходит успешно")
+    @allure.title("Успешное создание курьера при передаче всех возможных данных")
+    @allure.description(
+        "Тест проверяет успешное создание учетной записи курьера через API с передачей всех полей. "
+        "Запрос возвращает статус-код 201 и тело ответа {'ok': True}. "
+    )
+    def test_create_new_courier_with_all_fields_success(
+        self, courier_registration_body
+    ):
+        with allure.step("Создание нового курьера"):
+            register_response, _ = (
+                CourierMethods.register_new_courier_and_return_courier_data(
+                    courier_registration_body
+                )
+            )
+
+        with allure.step("Проверяем код ответа"):
+            assert (
+                register_response.status_code == 201
+            ), f"Ожидали статус-код 201, получили {register_response.status_code}"
+
+        with allure.step("Проверяем тело ответа"):
+            assert (
+                register_response.json() == Messages.COURIER_SUCCESFULLY_CREATED_MESSAGE
+            ), f"Ожидали тело ответа: {Messages.COURIER_SUCCESFULLY_CREATED_MESSAGE}, получили: {register_response.json()}"
+
+    @allure.title(
+        "Успешное создание курьера при передаче только обязательных данных(login, password)"
+    )
     @allure.description(
         "Тест проверяет успешное создание учетной записи курьера через API с передачей всех обязательных полей. "
         "Запрос возвращает статус-код 201 и тело ответа {'ok': True}. "
     )
-    def test_create_new_courier_success(self, courier_registration_body):
-        with allure.step("Создание нового курьера"):
+    def test_create_new_courier_with_all_required_fields_success(
+        self, courier_registration_body
+    ):
+        with allure.step("Создание нового курьера без имени"):
+            courier_registration_body["firstName"] = ""
             register_response, _ = (
                 CourierMethods.register_new_courier_and_return_courier_data(
                     courier_registration_body
@@ -60,7 +90,7 @@ class TestCreateCourier:
             assert (
                 register_response.json()["message"]
                 == Messages.EXISTING_LOGIN_ERROR_MESSAGE
-            ), f"Ожидали тело ответа: {Messages.EXISTING_LOGIN_ERROR_MESSAGE}, получили: {register_response.json()['message']}"
+            ), f"Ожидали в теле ответа: {Messages.EXISTING_LOGIN_ERROR_MESSAGE}, получили: {register_response.json()['message']}"
 
     @allure.title("Проверка создания курьера с отсутствующим обязательным полем")
     @allure.description(
@@ -87,4 +117,4 @@ class TestCreateCourier:
             assert (
                 register_response.json()["message"]
                 == Messages.NOT_ALL_INFO_FOR_REG_ERROR_MESSAGE
-            ), f"Ожидали тело ответа: {Messages.NOT_ALL_INFO_FOR_REG_ERROR_MESSAGE}, получили: {register_response.json()['message']}"
+            ), f"Ожидали в теле ответа: {Messages.NOT_ALL_INFO_FOR_REG_ERROR_MESSAGE}, получили: {register_response.json()['message']}"
