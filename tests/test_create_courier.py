@@ -28,9 +28,8 @@ class TestCreateCourier:
 
         with allure.step("Проверяем тело ответа"):
             assert (
-                register_response.json()
-                == CourierMessages.COURIER_SUCCESFULLY_CREATED_MESSAGE
-            ), f"Ожидали тело ответа: {CourierMessages.COURIER_SUCCESFULLY_CREATED_MESSAGE}, получили: {register_response.json()}"
+                register_response.json() == CourierMessages.COURIER_SUCCESS_MESSAGE
+            ), f"Ожидали тело ответа: {CourierMessages.COURIER_SUCCESS_MESSAGE}, получили: {register_response.json()}"
 
     @allure.title(
         "Успешное создание курьера при передаче только обязательных данных(login, password)"
@@ -57,9 +56,8 @@ class TestCreateCourier:
 
         with allure.step("Проверяем тело ответа"):
             assert (
-                register_response.json()
-                == CourierMessages.COURIER_SUCCESFULLY_CREATED_MESSAGE
-            ), f"Ожидали тело ответа: {CourierMessages.COURIER_SUCCESFULLY_CREATED_MESSAGE}, получили: {register_response.json()}"
+                register_response.json() == CourierMessages.COURIER_SUCCESS_MESSAGE
+            ), f"Ожидали тело ответа: {CourierMessages.COURIER_SUCCESS_MESSAGE}, получили: {register_response.json()}"
 
     @allure.title("Ошибка при создании курьера с уже существующим логином")
     @allure.description(

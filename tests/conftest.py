@@ -4,8 +4,7 @@ from courier_methods import CourierMethods
 
 
 # Фикстура для создания нового курьера, которая регистрирует курьера через API, логинится с его логином и паролем,
-# получает courier_id и возвращает словарь (login, password, courier_id) для использования в тестах.
-# После завершения теста удаляет курьера из системы.
+# получает courier_id и возвращает для использования в тестах.
 @pytest.fixture
 def courier():
     data = generate_courier_data()
@@ -17,13 +16,7 @@ def courier():
     login_response = CourierMethods.login_courier(credentials)
     courier_id = login_response.json().get("id")
 
-    yield {
-        "login": credentials["login"],
-        "password": credentials["password"],
-        "id": courier_id,
-    }
-
-    CourierMethods.delete_courier(courier_id)
+    return courier_id
 
 
 # Фикстура для генерации данных нового курьера для теста, которые возращает в тест для создания курьера.
