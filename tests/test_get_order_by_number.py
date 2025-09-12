@@ -13,7 +13,7 @@ class TestGetOrderInfoByNumber:
     )
     def test_get_order_info_by_number_success(self, order):
         with allure.step("Получить заказ по его номеру"):
-            get_order_info_response = OrderMethods.get_order_by_number(order)
+            get_order_info_response, _ = OrderMethods.get_order_by_number(order)
 
         with allure.step("Проверяем код ответа"):
             assert (
@@ -36,7 +36,7 @@ class TestGetOrderInfoByNumber:
             order_without_track = set_track_in_order_data_new_value(order, "")
 
         with allure.step("Получить заказ без номера заказа"):
-            get_order_info_response = OrderMethods.get_order_by_number(
+            get_order_info_response, _ = OrderMethods.get_order_by_number(
                 order_without_track
             )
         with allure.step("Проверяем код ответа"):
@@ -64,7 +64,7 @@ class TestGetOrderInfoByNumber:
             )
 
         with allure.step("Получить заказ c несуществующим номером"):
-            get_order_info_response = OrderMethods.get_order_by_number(
+            get_order_info_response, _ = OrderMethods.get_order_by_number(
                 order_with_nonexisting_track
             )
 

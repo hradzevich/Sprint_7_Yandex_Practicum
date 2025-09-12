@@ -34,3 +34,6 @@ class OrderMessages:
 
     # Текст сообщения при попытке получить данные о заказе c несуществующим номером
     GET_ORDER_INFO_NONEXISTING_TRACK_ERROR_MESSAGE = "Заказ не найден"
+
+    # Заказ принят успешно 
+    ORDER_ACCEPTED_SUCCESS_MESSAGE = {"ok": True}

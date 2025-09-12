@@ -41,9 +41,12 @@ class OrderMethods:
     def cancel_order(params):
         cancel_order_response = requests.put(CANCEL_ORDER, params=params)
         return cancel_order_response
-    
+
     @staticmethod
     @allure.step("Получить заказ по его номеру track")
     def get_order_by_number(track):
-        cancel_order_response = requests.get(f"{GET_ORDER_BY_NUMBER}?t={track}")
-        return cancel_order_response
+        get_order_response = requests.get(f"{GET_ORDER_BY_NUMBER}?t={track}")
+        order_id = None
+        if get_order_response.status_code == 200:
+            order_id = get_order_response.json()["order"]["id"]
+        return get_order_response, order_id

@@ -19,6 +19,8 @@ def courier_registration_body():
     login_response = CourierMethods.login_courier(credentials)
     courier_id = login_response.json().get("id")
 
+    yield courier_id
+
     if courier_id is not None:
         CourierMethods.delete_courier(courier_id)
 
