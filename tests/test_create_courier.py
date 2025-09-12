@@ -2,7 +2,7 @@ import pytest
 import allure
 from courier_methods import CourierMethods
 from generators import *
-from data import Messages
+from data import CourierMessages
 
 
 class TestCreateCourier:
@@ -28,8 +28,9 @@ class TestCreateCourier:
 
         with allure.step("Проверяем тело ответа"):
             assert (
-                register_response.json() == Messages.COURIER_SUCCESFULLY_CREATED_MESSAGE
-            ), f"Ожидали тело ответа: {Messages.COURIER_SUCCESFULLY_CREATED_MESSAGE}, получили: {register_response.json()}"
+                register_response.json()
+                == CourierMessages.COURIER_SUCCESFULLY_CREATED_MESSAGE
+            ), f"Ожидали тело ответа: {CourierMessages.COURIER_SUCCESFULLY_CREATED_MESSAGE}, получили: {register_response.json()}"
 
     @allure.title(
         "Успешное создание курьера при передаче только обязательных данных(login, password)"
@@ -56,8 +57,9 @@ class TestCreateCourier:
 
         with allure.step("Проверяем тело ответа"):
             assert (
-                register_response.json() == Messages.COURIER_SUCCESFULLY_CREATED_MESSAGE
-            ), f"Ожидали тело ответа: {Messages.COURIER_SUCCESFULLY_CREATED_MESSAGE}, получили: {register_response.json()}"
+                register_response.json()
+                == CourierMessages.COURIER_SUCCESFULLY_CREATED_MESSAGE
+            ), f"Ожидали тело ответа: {CourierMessages.COURIER_SUCCESFULLY_CREATED_MESSAGE}, получили: {register_response.json()}"
 
     @allure.title("Ошибка при создании курьера с уже существующим логином")
     @allure.description(
@@ -89,8 +91,8 @@ class TestCreateCourier:
         with allure.step("Проверяем тело ответа"):
             assert (
                 register_response.json()["message"]
-                == Messages.EXISTING_LOGIN_ERROR_MESSAGE
-            ), f"Ожидали в теле ответа: {Messages.EXISTING_LOGIN_ERROR_MESSAGE}, получили: {register_response.json()['message']}"
+                == CourierMessages.EXISTING_LOGIN_ERROR_MESSAGE
+            ), f"Ожидали в теле ответа: {CourierMessages.EXISTING_LOGIN_ERROR_MESSAGE}, получили: {register_response.json()['message']}"
 
     @allure.title("Проверка создания курьера с отсутствующим обязательным полем")
     @allure.description(
@@ -116,5 +118,5 @@ class TestCreateCourier:
         with allure.step("Проверяем тело ответа"):
             assert (
                 register_response.json()["message"]
-                == Messages.NOT_ALL_INFO_FOR_REG_ERROR_MESSAGE
-            ), f"Ожидали в теле ответа: {Messages.NOT_ALL_INFO_FOR_REG_ERROR_MESSAGE}, получили: {register_response.json()['message']}"
+                == CourierMessages.NOT_ALL_INFO_FOR_REG_ERROR_MESSAGE
+            ), f"Ожидали в теле ответа: {CourierMessages.NOT_ALL_INFO_FOR_REG_ERROR_MESSAGE}, получили: {register_response.json()['message']}"

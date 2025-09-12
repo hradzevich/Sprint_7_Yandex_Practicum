@@ -2,7 +2,7 @@ import pytest
 import allure
 from courier_methods import CourierMethods
 from generators import *
-from data import Messages
+from data import CourierMessages
 from helper import *
 
 
@@ -67,8 +67,8 @@ class TestLoginCourier:
         with allure.step("Проверяем тело ответа"):
             assert (
                 login_response.json()["message"]
-                == Messages.WRONG_CREDENTIALS_ERROR_MESSAGE
-            ), f"Ожидали в теле ответа: {Messages.WRONG_CREDENTIALS_ERROR_MESSAGE}, получили: {login_response.json()['message']}"
+                == CourierMessages.WRONG_CREDENTIALS_ERROR_MESSAGE
+            ), f"Ожидали в теле ответа: {CourierMessages.WRONG_CREDENTIALS_ERROR_MESSAGE}, получили: {login_response.json()['message']}"
 
     @allure.title("Логин курьера при отсутствии логина или пароля")
     @allure.description(
@@ -103,5 +103,5 @@ class TestLoginCourier:
         with allure.step("Проверяем тело ответа"):
             assert (
                 login_response.json()["message"]
-                == Messages.EMPTY_CREDENTIALS_ERROR_MESSAGE
-            ), f"Ожидали в теле ответа: {Messages.EMPTY_CREDENTIALS_ERROR_MESSAGE}, получили: {login_response.json()['message']}"
+                == CourierMessages.EMPTY_CREDENTIALS_ERROR_MESSAGE
+            ), f"Ожидали в теле ответа: {CourierMessages.EMPTY_CREDENTIALS_ERROR_MESSAGE}, получили: {login_response.json()['message']}"

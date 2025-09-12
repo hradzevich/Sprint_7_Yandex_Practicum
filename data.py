@@ -1,4 +1,6 @@
-class Messages:
+# Класс содержит константы с текстовыми сообщениями, которые возвращает API при 
+# различных сценариях работы с учетной записью курьера 
+class CourierMessages:
     # Успешное создание учетной записи
     COURIER_SUCCESFULLY_CREATED_MESSAGE = {"ok": True}
 
