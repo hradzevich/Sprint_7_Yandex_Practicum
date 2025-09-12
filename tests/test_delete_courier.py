@@ -52,9 +52,13 @@ class TestDeleteCourier:
         "Ожидается статус-код 404 и соответствующее сообщение об ошибке."
     )
     def test_delete_nonexisting_courier_error(self, courier):
-        with allure.step("Удаление учетной записи курьера, ID которого нет в системе"):
+        with allure.step(
+            "Подготовка данных: создаем ID курьера,которого нет в системе"
+        ):
             existing_id = courier
-            nonexisting_id = existing_id + 10
+            nonexisting_id = existing_id + 99999
+
+        with allure.step("Удаление учетной записи курьера, ID которого нет в системе"):
             delete_response = CourierMethods.delete_courier(nonexisting_id)
 
         with allure.step("Проверяем код ответа"):

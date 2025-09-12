@@ -19,6 +19,9 @@ CREATE_ORDER = f"{BASE_URL}/api/v1/orders"
 # Принять заказ
 ACCEPT_ORDER = f"{BASE_URL}/api/v1/orders/accept"
 
+# Отменить заказ
+CANCEL_ORDER = f"{BASE_URL}/api/v1/orders/cancel"
+
 # Получить заказ по его номеру
 GET_ORDER_BY_NUMBER = f"{BASE_URL}/api/v1/orders/track"
 

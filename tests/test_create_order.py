@@ -2,6 +2,7 @@ import pytest
 import allure
 from orders_methods import OrderMethods
 from generators import *
+from helper import *
 
 
 class TestCreateOrder:
@@ -14,16 +15,19 @@ class TestCreateOrder:
     @pytest.mark.parametrize(
         "color_option",
         [
-            "BLACK",
-            "GREY",
-            "BLACK, GREY",
-            "",
+            ["BLACK"],
+            ["GREY"],
+            ["BLACK, GREY"],
+            [],
         ],
     )
-    def test_create_new_order_success(self, color_option):
+    def test_create_new_order_success(self, color_option, order_body):
         with allure.step("Создание нового заказа"):
-            order_data = generare_order_data(color_option)
-            create_order_response = OrderMethods.create_new_order(order_data)
+            order_body_with_scooter_color = modify_order_data(order_body, color_option)
+            create_order_response, track = OrderMethods.create_new_order(
+                order_body_with_scooter_color
+            )
+            order_body["track"] = track
 
         with allure.step("Проверяем код ответа"):
             assert (
