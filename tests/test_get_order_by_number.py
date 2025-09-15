@@ -33,16 +33,9 @@ class TestGetOrderInfoByNumber:
         "Тест проверяет, что запрос на получение информации о заказе без указания номера заказа"
         "возвращает ошибку с кодом 400 с соответствующим сообщением."
     )
-    def test_get_order_info_no_number_error(self, created_order_track):
-        with allure.step("Подготовка данных: удаляем трек из заказа"):
-            order_without_track = set_in_data_new_value(
-                created_order_track, ""
-            )
-
-        with allure.step("Получить заказ без номера заказа"):
-            get_order_info_response, _ = OrderMethods.get_order_by_number(
-                order_without_track
-            )
+    def test_get_order_info_no_number_error(self):
+        with allure.step("Получить заказ без номера track"):
+            get_order_info_response, _ = OrderMethods.get_order_by_number(track=None)
         with allure.step("Проверяем код ответа"):
             assert (
                 get_order_info_response.status_code == 400

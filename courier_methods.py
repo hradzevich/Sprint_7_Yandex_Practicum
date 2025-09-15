@@ -4,6 +4,21 @@ from urls import *
 
 
 class CourierMethods:
+
+    @staticmethod
+    @allure.step("Логин курьера в системе")
+    def login_courier(credentials):
+        return requests.post(LOGIN_COURIER, json=credentials)
+
+    @staticmethod
+    @allure.step("Удаление курьера по ID")
+    def delete_courier(courier_id=None):
+        if courier_id is None:
+            delete_response = requests.delete(DELETE_COURIER)
+        else:
+            delete_response = requests.delete(f"{DELETE_COURIER}/{courier_id}")
+        return delete_response
+
     @staticmethod
     @allure.step("Регистрация нового курьера")
     def register_new_courier_and_return_courier_data(data):
@@ -16,18 +31,3 @@ class CourierMethods:
                 "first_name": data["firstName"],
             }
         return register_response, courier_data
-
-    @staticmethod
-    @allure.step("Логин курьера в системе")
-    def login_courier(credentials):
-        return requests.post(LOGIN_COURIER, json=credentials)
-
-    @staticmethod
-    @allure.step("Удаление курьера по ID")
-    def delete_courier(courier_id):
-        return requests.delete(f"{DELETE_COURIER}/{courier_id}")
-
-    @staticmethod
-    @allure.step("Удаление курьера без ID")
-    def delete_courier_no_id():
-        return requests.delete(f"{DELETE_COURIER}")

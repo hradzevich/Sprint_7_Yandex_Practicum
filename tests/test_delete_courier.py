@@ -32,7 +32,7 @@ class TestDeleteCourier:
     )
     def test_delete_courier_without_id_error(self):
         with allure.step("Удаление учетной записи курьера без ID"):
-            delete_response = CourierMethods.delete_courier_no_id()
+            delete_response = CourierMethods.delete_courier(courier_id=None)
 
         with allure.step("Проверяем код ответа"):
             assert (

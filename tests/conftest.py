@@ -57,7 +57,7 @@ def temporary_order():
 
     yield holder
 
-    if holder["track"]:
+    if holder["track"] is not None:
         OrderMethods.cancel_order(str(holder["track"]))
 
 
