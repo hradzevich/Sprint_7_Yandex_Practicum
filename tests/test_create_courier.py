@@ -3,6 +3,7 @@ import allure
 from courier_methods import CourierMethods
 from generators import *
 from data import CourierMessages
+from helper import *
 
 
 class TestCreateCourier:
@@ -11,9 +12,7 @@ class TestCreateCourier:
         "Тест проверяет успешное создание учетной записи курьера через API с передачей всех полей. "
         "Запрос возвращает статус-код 201 и тело ответа {'ok': True}. "
     )
-    def test_create_new_courier_with_all_fields_success(
-        self, temporary_courier
-    ):
+    def test_create_new_courier_with_all_fields_success(self, temporary_courier):
         with allure.step("Создание нового курьера"):
             register_response, _ = (
                 CourierMethods.register_new_courier_and_return_courier_data(
@@ -42,8 +41,9 @@ class TestCreateCourier:
         self, temporary_courier
     ):
         with allure.step("Создание нового курьера без имени"):
-            data_without_login = temporary_courier
-            data_without_login["firstName"] = ""
+            data_without_login = set_field_of_courier_data_empty(
+                temporary_courier, "firstName"
+            )
             register_response, _ = (
                 CourierMethods.register_new_courier_and_return_courier_data(
                     data_without_login
@@ -73,7 +73,7 @@ class TestCreateCourier:
                 )
             )
             existing_login = courier_data["login"]
-        with allure.step("Пробуем создать второго курьера с тем же логином"):
+        with allure.step("Создаем второго курьера с тем же логином"):
             data_existing_login = generate_courier_data()
             data_existing_login["login"] = existing_login
             register_response, _ = (
@@ -103,8 +103,9 @@ class TestCreateCourier:
         self, key, temporary_courier
     ):
         with allure.step(f"Создание нового курьера без {key}"):
-            data_with_empty_required = temporary_courier
-            data_with_empty_required[key] = ""
+            data_with_empty_required = set_field_of_courier_data_empty(
+                temporary_courier, key
+            )
             register_response, _ = (
                 CourierMethods.register_new_courier_and_return_courier_data(
                     data_with_empty_required

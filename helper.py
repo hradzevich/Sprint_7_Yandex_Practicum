@@ -24,8 +24,8 @@ def modify_courier_data(original_data, key):
 
 
 # Функция изменяет данные зарегистрированного курьера и заменяет значение указанного ключа на пустое.
-# Используется для тестирования сценариев с пустым логином/паролем
-def set_required_field_of_courier_data_empty(original_data, key):
+# Используется для тестирования сценариев с пустым логином/паролем и без имени
+def set_field_of_courier_data_empty(original_data, key):
     data = original_data.copy()
     data[key] = ""
     return data
@@ -40,8 +40,6 @@ def modify_order_data(original_data, value):
 
 
 # Функция изменяет данные на нужное значение.
-# Используется для тестирования негативных сценариев с получением заказа по номеру и принятия заказа
-def set_in_data_new_value(original_data,value):
-    new_data = original_data
-    new_data = value
-    return new_data
+# Используется для тестирования негативных сценариев.
+def get_nonexisting_value(existing_value, offset=99999):
+    return existing_value + offset

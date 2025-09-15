@@ -29,7 +29,6 @@ class TestCreateOrder:
             create_order_response, track = OrderMethods.create_new_order(
                 order_body_with_scooter_color
             )
-            temporary_order["track"] = track
 
         with allure.step("Проверяем код ответа"):
             assert (

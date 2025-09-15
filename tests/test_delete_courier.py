@@ -3,6 +3,7 @@ from data import CourierMessages
 from courier_methods import CourierMethods
 import allure
 from urls import *
+from helper import *
 
 
 class TestDeleteCourier:
@@ -55,8 +56,7 @@ class TestDeleteCourier:
         with allure.step(
             "Подготовка данных: создаем ID курьера,которого нет в системе"
         ):
-            existing_id = logged_in_courier
-            nonexisting_id = existing_id + 99999
+            nonexisting_id = get_nonexisting_value(logged_in_courier)
 
         with allure.step("Удаление учетной записи курьера, ID которого нет в системе"):
             delete_response = CourierMethods.delete_courier(nonexisting_id)

@@ -45,15 +45,12 @@ class TestAcceptOrder:
         with allure.step(
             "Подготовка данных: заменяем значение order_id на несуществующее"
         ):
-            nonexisting_order_id = order_id + 99999
-            order_with_nonexisting_id = set_in_data_new_value(
-                created_order_track, nonexisting_order_id
-            )
+            nonexisting_order_id = get_nonexisting_value(order_id)
 
         with allure.step("Присваиваем курьеру заказ"):
             courier_id = logged_in_courier
             accept_order_response = OrderMethods.accept_order(
-                courier_id, order_with_nonexisting_id
+                courier_id, nonexisting_order_id
             )
 
         with allure.step("Проверяем код ответа"):
@@ -81,14 +78,11 @@ class TestAcceptOrder:
         with allure.step(
             "Подготовка данных: заменяем значение courier_id на несуществующее"
         ):
-            nonexisting_courier_id = logged_in_courier + 99999
-            courier_with_nonexisting_id = set_in_data_new_value(
-                logged_in_courier, nonexisting_courier_id
-            )
+            nonexisting_courier_id = get_nonexisting_value(logged_in_courier)
 
         with allure.step("Присваиваем курьеру заказ"):
             accept_order_response = OrderMethods.accept_order(
-                courier_with_nonexisting_id, order_id
+                nonexisting_courier_id, order_id
             )
 
         with allure.step("Проверяем код ответа"):
