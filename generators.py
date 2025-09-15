@@ -1,6 +1,5 @@
 from faker import Faker
 import random as r
-from data import *
 from datetime import datetime, timedelta
 from transliterate import translit
 

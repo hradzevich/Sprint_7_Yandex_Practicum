@@ -48,3 +48,6 @@ class OrderMessages:
 
     # Текст сообщения при попытке принять заказ без указания id курьера или заказа
     ACCEPT_ORDER_WITHOUT_ID_ERROR_MESSAGE = "Недостаточно данных для поиска"
+
+    # Текст сообщения при попытке принять заказ повторно
+    ORDER_ALREADY_ACCEPTED_ERROR_MESSAGE = "Этот заказ уже в работе"

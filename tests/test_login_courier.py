@@ -30,7 +30,7 @@ class TestLoginCourier:
                 "id" in login_response.json()
             ), f"Ожидали наличие ключа 'id' в ответе, получили {login_response.json()}"
 
-    @allure.title("Логин курьера с неверным логином или паролем")
+    @allure.title("Ошибка при логине курьера с неверным логином или паролем")
     @allure.description(
         "Тест проверяет, что при попытке логина с неверным login или password "
         "API возвращает код 404 и корректное сообщение об ошибке."
@@ -58,7 +58,7 @@ class TestLoginCourier:
                 == CourierMessages.WRONG_CREDENTIALS_ERROR_MESSAGE
             ), f"Ожидали в теле ответа: {CourierMessages.WRONG_CREDENTIALS_ERROR_MESSAGE}, получили: {login_response.json()['message']}"
 
-    @allure.title("Логин курьера при отсутствии логина или пароля")
+    @allure.title("Ошибка при логине курьера без логина или пароля")
     @allure.description(
         "Тест проверяет, что при попытке логина без login или password "
         "API возвращает код 404 и корректное сообщение об ошибке."

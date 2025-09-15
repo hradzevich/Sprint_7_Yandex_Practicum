@@ -136,3 +136,33 @@ class TestAcceptOrder:
                 accept_order_response.json()["message"]
                 == OrderMessages.ACCEPT_ORDER_WITHOUT_ID_ERROR_MESSAGE
             ), f"Ожидали тело ответа: {OrderMessages.ACCEPT_ORDER_WITHOUT_ID_ERROR_MESSAGE}, получили: {accept_order_response.json()["message"]}"
+
+    @allure.title("Ошибка при попытке принять заказ повторно")
+    @allure.description(
+        "Тест проверяет, что при попытке принять, который уже был приянт ранее, "
+        "возвращает статус-код 409 и корректное тело ответа."
+    )
+    def test_accept_already_accepted_order_error(
+        self, logged_in_courier, created_order_id
+    ):
+
+        with allure.step("Присваиваем курьеру заказ"):
+            accept_order_response = OrderMethods.accept_order(
+                logged_in_courier, created_order_id
+            )
+
+        with allure.step("Присваиваем курьеру заказ повторно"):
+            accept_order_response = OrderMethods.accept_order(
+                logged_in_courier, created_order_id
+            )
+
+        with allure.step("Проверяем код ответа"):
+            assert (
+                accept_order_response.status_code == 409
+            ), f"Ожидали статус-код 409, получили {accept_order_response.status_code}"
+
+        with allure.step("Проверяем тело ответа"):
+            assert (
+                accept_order_response.json()["message"]
+                == OrderMessages.ORDER_ALREADY_ACCEPTED_ERROR_MESSAGE
+            ), f"Ожидали тело ответа: {OrderMessages.ORDER_ALREADY_ACCEPTED_ERROR_MESSAGE}, получили: {accept_order_response.json()["message"]}"

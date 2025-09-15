@@ -91,7 +91,7 @@ class TestCreateCourier:
                 == CourierMessages.EXISTING_LOGIN_ERROR_MESSAGE
             ), f"Ожидали в теле ответа: {CourierMessages.EXISTING_LOGIN_ERROR_MESSAGE}, получили: {register_response.json()['message']}"
 
-    @allure.title("Проверка создания курьера с отсутствующим обязательным полем")
+    @allure.title("Ошибка при создании курьера с отсутствующим обязательным полем")
     @allure.description(
         "Тест проверяет, что при попытке создать курьера без обязательного поля "
         "(login или password) API возвращает код 400 и корректное сообщение об ошибке."

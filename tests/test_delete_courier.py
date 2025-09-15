@@ -26,7 +26,7 @@ class TestDeleteCourier:
                 delete_response.json() == CourierMessages.COURIER_SUCCESS_MESSAGE
             ), f"Ожидали тело ответа: {CourierMessages.COURIER_SUCCESS_MESSAGE}, получили: {delete_response.json()}"
 
-    @allure.title("Попытка удаления курьера без указания ID")
+    @allure.title("Ошибка при удаления курьера без указания ID")
     @allure.description(
         "Тест проверяет негативный сценарий удаления курьера без передачи ID. "
         "Ожидается, что сервер вернёт статус-код 400 и сообщение об ошибке."
@@ -46,7 +46,7 @@ class TestDeleteCourier:
                 == CourierMessages.DELETE_WITHOUT_ID_ERROR_MESSAGE
             ), f"Ожидали тело ответа: {CourierMessages.DELETE_WITHOUT_ID_ERROR_MESSAGE}, получили: {delete_response.json()["message"]}"
 
-    @allure.title("Попытка удаления несуществующего курьера")
+    @allure.title("Ошибка при удалении несуществующего курьера")
     @allure.description(
         "Тест проверяет негативный сценарий удаления курьера, которого нет в системе. "
         "ID берётся из фикстуры, затем модифицируется, чтобы гарантировать, что курьер не существует. "
