@@ -55,9 +55,8 @@ class OrderMethods:
         params = {}
         order_id = None
         if track is not None:
-            params["track"] = track
+            params["t"] = track
         get_order_response = requests.get(GET_ORDER_BY_NUMBER, params=params)
         if get_order_response.status_code == 200:
             order_id = get_order_response.json()["order"]["id"]
         return get_order_response, order_id
-

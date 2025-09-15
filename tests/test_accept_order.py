@@ -12,13 +12,12 @@ class TestAcceptOrder:
         "Тест проверяет, что курьер может принять заказ. "
         "Проверяется статус-код 200 и корректное тело ответа."
     )
-    def test_accept_order_success(self, logged_in_courier, created_order_track):
-        with allure.step("Получаем идентификатор заказа по номеру"):
-            _, order_id = OrderMethods.get_order_by_number(created_order_track)
+    def test_accept_order_success(self, logged_in_courier, created_order_id):
 
         with allure.step("Присваиваем курьеру заказ"):
-            courier_id = logged_in_courier
-            accept_order_response = OrderMethods.accept_order(courier_id, order_id)
+            accept_order_response = OrderMethods.accept_order(
+                logged_in_courier, created_order_id
+            )
 
         with allure.step("Проверяем код ответа"):
             assert (
@@ -37,15 +36,12 @@ class TestAcceptOrder:
         "возвращает код 404 и ожидаемое сообщение об ошибке."
     )
     def test_accept_order_invalid_order_id_error(
-        self, created_order_track, logged_in_courier
+        self, logged_in_courier, created_order_id
     ):
-        with allure.step("Получаем идентификатор заказа по номеру"):
-            _, order_id = OrderMethods.get_order_by_number(created_order_track)
-
         with allure.step(
             "Подготовка данных: заменяем значение order_id на несуществующее"
         ):
-            nonexisting_order_id = get_nonexisting_value(order_id)
+            nonexisting_order_id = get_nonexisting_value(created_order_id)
 
         with allure.step("Присваиваем курьеру заказ"):
             courier_id = logged_in_courier
@@ -70,10 +66,8 @@ class TestAcceptOrder:
         "возвращает код 404 и ожидаемое сообщение об ошибке."
     )
     def test_accept_order_invalid_courier_id_error(
-        self, created_order_track, logged_in_courier
+        self, created_order_id, logged_in_courier
     ):
-        with allure.step("Получаем идентификатор заказа по номеру"):
-            _, order_id = OrderMethods.get_order_by_number(created_order_track)
 
         with allure.step(
             "Подготовка данных: заменяем значение courier_id на несуществующее"
@@ -82,7 +76,7 @@ class TestAcceptOrder:
 
         with allure.step("Присваиваем курьеру заказ"):
             accept_order_response = OrderMethods.accept_order(
-                nonexisting_courier_id, order_id
+                nonexisting_courier_id, created_order_id
             )
 
         with allure.step("Проверяем код ответа"):
@@ -124,13 +118,13 @@ class TestAcceptOrder:
         "возвращает код 400 и ожидаемое сообщение об ошибке."
     )
     def test_accept_order_without_courier_id_error(
-        self, created_order_track, courier_id=None
+        self, created_order_id, courier_id=None
     ):
-        with allure.step("Получаем идентификатор заказа по номеру"):
-            _, order_id = OrderMethods.get_order_by_number(created_order_track)
 
         with allure.step("Присваиваем курьеру заказ"):
-            accept_order_response = OrderMethods.accept_order(courier_id, order_id)
+            accept_order_response = OrderMethods.accept_order(
+                courier_id, created_order_id
+            )
 
         with allure.step("Проверяем код ответа"):
             assert (

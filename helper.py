@@ -6,8 +6,15 @@ import random as r
 fake = Faker("ru_RU")
 
 
+# Функция изменяет данные на нужное значение.
+# Используется для тестирования негативных сценариев.
+def get_nonexisting_value(existing_value, offset=99999):
+
+    return existing_value + offset
+
+
 # Функция изменяет данные зарегистрированного курьера и заменяет значение указанного ключа на другое.
-# Используется для тестирования сценариев с неправильным логином/паролем
+# Используется для тестирования сценариев с неправильным логином/паролем.
 def modify_courier_data(original_data, key):
     data = original_data.copy()
     if key == "login":
@@ -23,23 +30,10 @@ def modify_courier_data(original_data, key):
     return data
 
 
-# Функция изменяет данные зарегистрированного курьера и заменяет значение указанного ключа на пустое.
-# Используется для тестирования сценариев с пустым логином/паролем и без имени
-def set_field_of_courier_data_empty(original_data, key):
+# Функция заменяет значение ключа на нужное значение.
+# Используется для тестирования  негативных сценариев.
+def modify_data(original_data, key, value):
     data = original_data.copy()
-    data[key] = ""
+    data[key] = value
+
     return data
-
-
-# Функция изменяет данные в заказе и заменяет значение ключа 'color' на нужное значение.
-# Используется для тестирования сценария создания заказа с разными цветами самоката
-def modify_order_data(original_data, value):
-    data = original_data.copy()
-    data["color"] = value
-    return data
-
-
-# Функция изменяет данные на нужное значение.
-# Используется для тестирования негативных сценариев.
-def get_nonexisting_value(existing_value, offset=99999):
-    return existing_value + offset

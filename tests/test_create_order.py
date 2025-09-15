@@ -23,8 +23,8 @@ class TestCreateOrder:
     )
     def test_create_new_order_success(self, color_option, temporary_order):
         with allure.step("Создание нового заказа"):
-            order_body_with_scooter_color = modify_order_data(
-                temporary_order, color_option
+            order_body_with_scooter_color = modify_data(
+                temporary_order, "color", color_option
             )
             create_order_response, track = OrderMethods.create_new_order(
                 order_body_with_scooter_color

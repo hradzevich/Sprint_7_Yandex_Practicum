@@ -72,7 +72,7 @@ class TestLoginCourier:
                 "login": registered_courier["login"],
                 "password": registered_courier["password"],
             }
-            empty_credentials = set_field_of_courier_data_empty(credentials, key)
+            empty_credentials = modify_data(credentials, key, "")
             login_response = CourierMethods.login_courier(empty_credentials)
 
         with allure.step("Проверяем код ответа"):

@@ -48,8 +48,9 @@ def logged_in_courier(registered_courier):
     return courier_id
 
 
-# Фикстура для создания нового заказа, которая готовит данные для заказа и возвращает для использования в тестах.
-# Затем получает номер заказа 'track' и отменяет заказ.
+# Фикстура для подготовки данных нового заказа.
+# Возвращает словарь с телом заказа и пустым треком.
+# После теста, если трек присвоен, отменяет заказ через API.
 @pytest.fixture
 def temporary_order():
     data = generare_order_data()
@@ -61,10 +62,19 @@ def temporary_order():
         OrderMethods.cancel_order(str(holder["track"]))
 
 
-# Фикстура для создания нового заказа, которая готовит данные для заказа, создает новый заказ и возвращает
-# номер заказа 'track' для использования в тестах.
+# Фикстура для создания заказа через API.
+# Возвращает номер заказа (track) для использования в тестах.
 @pytest.fixture
 def created_order_track(temporary_order):
     _, track = OrderMethods.create_new_order(temporary_order["body"])
 
     return track
+
+
+# Фикстура для получения ID заказа по номеру track.
+# Использует созданный заказ и возвращает его order_id для тестов.
+@pytest.fixture
+def created_order_id(created_order_track):
+    response, order_id = OrderMethods.get_order_by_number(created_order_track)
+
+    return order_id
