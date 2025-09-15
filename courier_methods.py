@@ -7,8 +7,8 @@ class CourierMethods:
 
     @staticmethod
     @allure.step("Логин курьера в системе")
-    def login_courier(credentials):
-        return requests.post(LOGIN_COURIER, json=credentials)
+    def login_courier(data):
+        return requests.post(LOGIN_COURIER, json=data)
 
     @staticmethod
     @allure.step("Удаление курьера по ID")

@@ -22,8 +22,8 @@ class OrderMethods:
 
     @staticmethod
     @allure.step("Отменить заказ")
-    def cancel_order(params):
-        cancel_order_response = requests.put(CANCEL_ORDER, params=params)
+    def cancel_order(data):
+        cancel_order_response = requests.put(CANCEL_ORDER, json=data)
         return cancel_order_response
 
     @staticmethod

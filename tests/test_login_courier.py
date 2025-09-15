@@ -29,7 +29,8 @@ class TestLoginCourier:
             assert (
                 "id" in login_response.json()
             ), f"Ожидали наличие ключа 'id' в ответе, получили {login_response.json()}"
-
+            assert login_response.json()["id"], f"Ожидали, что 'id' не пустой, получили {login_response.json()['id']}"
+    
     @allure.title("Ошибка при логине курьера с неверным логином или паролем")
     @allure.description(
         "Тест проверяет, что при попытке логина с неверным login или password "

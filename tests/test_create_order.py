@@ -26,7 +26,7 @@ class TestCreateOrder:
             order_body_with_scooter_color = modify_data(
                 temporary_order, "color", color_option
             )
-            create_order_response, track = OrderMethods.create_new_order(
+            create_order_response, _ = OrderMethods.create_new_order(
                 order_body_with_scooter_color
             )
 
@@ -37,5 +37,8 @@ class TestCreateOrder:
 
         with allure.step("Проверяем тело ответа"):
             assert (
-                "track" in create_order_response.json() and track != ""
-            ), f"Ожидали наличие ключа 'track' с непустым значением в ответе, получили {create_order_response.json()}"
+                "track" in create_order_response.json()
+            ), f"Ожидали наличие ключа 'track' в ответе, получили {create_order_response.json()}"
+            assert create_order_response.json()[
+                "track"
+            ], f"Ожидали, что 'track' не пустой, получили {create_order_response.json()["track"]}"
