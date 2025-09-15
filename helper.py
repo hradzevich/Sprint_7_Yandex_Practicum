@@ -39,10 +39,9 @@ def modify_order_data(original_data, value):
     return data
 
 
-# Функция изменяет данные о номере заказа на нужное значение.
-# Используется для тестирования негативного сценария получения информации о заказе без номера заказа
-# и с несуществующим номером заказа
-def set_track_in_order_data_new_value(original_track,value):
-    new_track = original_track
-    new_track = value
-    return new_track
+# Функция изменяет данные на нужное значение.
+# Используется для тестирования негативных сценариев с получением заказа по номеру и принятия заказа
+def set_in_data_new_value(original_data,value):
+    new_data = original_data
+    new_data = value
+    return new_data

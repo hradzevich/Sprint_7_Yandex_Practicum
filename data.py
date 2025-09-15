@@ -35,5 +35,16 @@ class OrderMessages:
     # Текст сообщения при попытке получить данные о заказе c несуществующим номером
     GET_ORDER_INFO_NONEXISTING_TRACK_ERROR_MESSAGE = "Заказ не найден"
 
-    # Заказ принят успешно 
+    # Заказ принят успешно
     ORDER_ACCEPTED_SUCCESS_MESSAGE = {"ok": True}
+
+    # Текст сообщения при попытке принять заказ c несуществующим номером заказа
+    ACCEPT_ORDER_WITH_INVALID_ORDER_ID_ERROR_MESSAGE = "Заказа с таким id не существует"
+
+    # Текст сообщения при попытке принять заказ c несуществующим номером курьера
+    ACCEPT_ORDER_WITH_INVALID_COURIER_ID_ERROR_MESSAGE = (
+        "Курьера с таким id не существует"
+    )
+
+    # Текст сообщения при попытке принять заказ без указания id курьера или заказа
+    ACCEPT_ORDER_WITHOUT_ID_ERROR_MESSAGE = "Недостаточно данных для поиска"

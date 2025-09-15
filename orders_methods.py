@@ -27,12 +27,19 @@ class OrderMethods:
 
         get_orders_response = requests.get(GET_LIST_OF_ORDERS, params=params)
         return get_orders_response
+    
 
     @staticmethod
     @allure.step("Принять заказ")
-    def accept_order(order_id, courier_id):
-        accept_order_response = requests.put(
-            f"{ACCEPT_ORDER}/{order_id}?courierId={courier_id}"
+    def accept_order(courier_id = None, order_id = None):
+        params = {}
+        if courier_id is not None:
+            params["courierId"] = courier_id
+        if order_id is None:
+            accept_order_response = requests.put(ACCEPT_ORDER, params = params 
+        )
+        else:
+            accept_order_response = requests.put(f"{ACCEPT_ORDER}/{order_id}", params=params 
         )
         return accept_order_response
 

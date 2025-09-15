@@ -35,7 +35,7 @@ class TestGetOrderInfoByNumber:
     )
     def test_get_order_info_no_number_error(self, created_order_track):
         with allure.step("Подготовка данных: удаляем трек из заказа"):
-            order_without_track = set_track_in_order_data_new_value(
+            order_without_track = set_in_data_new_value(
                 created_order_track, ""
             )
 
@@ -62,7 +62,7 @@ class TestGetOrderInfoByNumber:
     def test_get_order_info_nonexisting_number_error(self, created_order_track):
         with allure.step("Подготовка данных: заменяем значение на несуществующее"):
             nonexisting_track_value = created_order_track + 99999
-            order_with_nonexisting_track = set_track_in_order_data_new_value(
+            order_with_nonexisting_track = set_in_data_new_value(
                 created_order_track, nonexisting_track_value
             )
 
