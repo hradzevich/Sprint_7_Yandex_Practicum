@@ -11,9 +11,9 @@ class TestDeleteCourier:
         "Тест проверяет успешное удаление курьера через API. "
         "Проверяется, что возвращается статус-код 200 и тело ответа соответствует ожидаемому сообщению о успешном удалении."
     )
-    def test_delete_courier_success(self, courier):
+    def test_delete_courier_success(self, logged_in_courier):
         with allure.step("Удаление учетной записи курьера"):
-            delete_response = CourierMethods.delete_courier(courier)
+            delete_response = CourierMethods.delete_courier(logged_in_courier)
 
         with allure.step("Проверяем код ответа"):
             assert (
@@ -51,11 +51,11 @@ class TestDeleteCourier:
         "ID берётся из фикстуры, затем модифицируется, чтобы гарантировать, что курьер не существует. "
         "Ожидается статус-код 404 и соответствующее сообщение об ошибке."
     )
-    def test_delete_nonexisting_courier_error(self, courier):
+    def test_delete_nonexisting_courier_error(self, logged_in_courier):
         with allure.step(
             "Подготовка данных: создаем ID курьера,которого нет в системе"
         ):
-            existing_id = courier
+            existing_id = logged_in_courier
             nonexisting_id = existing_id + 99999
 
         with allure.step("Удаление учетной записи курьера, ID которого нет в системе"):

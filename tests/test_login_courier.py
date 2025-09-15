@@ -12,17 +12,11 @@ class TestLoginCourier:
         "Тест проверяет, что после создания курьера можно успешно выполнить логин "
         "с передачей всех обязательных полей (login, password). Ожидается код 200 и наличие поля 'id' в ответе."
     )
-    def test_login_existing_courier_success(self, courier_registration_body):
-        with allure.step("Создание нового курьера"):
-            _, courier_data = (
-                CourierMethods.register_new_courier_and_return_courier_data(
-                    courier_registration_body
-                )
-            )
+    def test_login_existing_courier_success(self, registered_courier):
         with allure.step("Логин нового курьера"):
             credentials = {
-                "login": courier_data["login"],
-                "password": courier_data["password"],
+                "login": registered_courier["login"],
+                "password": registered_courier["password"],
             }
             login_response = CourierMethods.login_courier(credentials)
 
@@ -43,18 +37,12 @@ class TestLoginCourier:
     )
     @pytest.mark.parametrize("key", ["login", "password"])
     def test_login_courier_with_wrong_login_or_password_error(
-        self, key, courier_registration_body
+        self, key, registered_courier
     ):
-        with allure.step("Создание нового курьера"):
-            _, courier_data = (
-                CourierMethods.register_new_courier_and_return_courier_data(
-                    courier_registration_body
-                )
-            )
         with allure.step(f"Логин курьера c неправильным {key}"):
             credentials = {
-                "login": courier_data["login"],
-                "password": courier_data["password"],
+                "login": registered_courier["login"],
+                "password": registered_courier["password"],
             }
             invalid_credentials = modify_courier_data(credentials, key)
             login_response = CourierMethods.login_courier(invalid_credentials)
@@ -77,18 +65,12 @@ class TestLoginCourier:
     )
     @pytest.mark.parametrize("key", ["login", "password"])
     def test_login_courier_with_no_login_or_password_error(
-        self, key, courier_registration_body
+        self, key, registered_courier
     ):
-        with allure.step("Создание нового курьера"):
-            _, courier_data = (
-                CourierMethods.register_new_courier_and_return_courier_data(
-                    courier_registration_body
-                )
-            )
         with allure.step(f"Логин курьера без {key}"):
             credentials = {
-                "login": courier_data["login"],
-                "password": courier_data["password"],
+                "login": registered_courier["login"],
+                "password": registered_courier["password"],
             }
             empty_credentials = set_required_field_of_courier_data_empty(
                 credentials, key

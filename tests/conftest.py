@@ -7,7 +7,7 @@ from orders_methods import OrderMethods
 # Фикстура для генерации данных нового курьера для теста, которые возращает в тест для создания курьера.
 # Затем логинится с его логином и паролем, получает courier_id для удаления курьера и удаляет.
 @pytest.fixture
-def courier_registration_body():
+def courier_registration_data():
     data = generate_courier_data()
 
     yield data
@@ -19,16 +19,33 @@ def courier_registration_body():
     login_response = CourierMethods.login_courier(credentials)
     courier_id = login_response.json().get("id")
 
-    yield courier_id
+    if courier_id is not None:
+        CourierMethods.delete_courier(courier_id)
 
+
+# Фикстура для создания нового курьера, которая регистрирует курьера через API и возвращает его логин и пароль 
+# для использования в тестах. После завершения теста удаляет курьера. 
+@pytest.fixture
+def registered_courier():
+    data = generate_courier_data()
+    _, courier_data = CourierMethods.register_new_courier_and_return_courier_data(data)
+    credentials = {
+        "login": courier_data["login"],
+        "password": courier_data["password"],
+    }
+
+    yield credentials
+
+    login_response = CourierMethods.login_courier(credentials)
+    courier_id = login_response.json().get("id")
     if courier_id is not None:
         CourierMethods.delete_courier(courier_id)
 
 
 # Фикстура для создания нового курьера, которая регистрирует курьера через API, логинится с его логином и паролем,
-# получает courier_id и возвращает для использования в тестах.
+# получает courier_id и возвращает для использования в тестах. Если в тесте курьер не был удален, повторная попытка удаления. 
 @pytest.fixture
-def courier():
+def logged_in_courier():
     data = generate_courier_data()
     _, courier_data = CourierMethods.register_new_courier_and_return_courier_data(data)
     credentials = {
@@ -38,7 +55,9 @@ def courier():
     login_response = CourierMethods.login_courier(credentials)
     courier_id = login_response.json().get("id")
 
-    return courier_id
+    yield courier_id
+
+    CourierMethods.delete_courier(courier_id)
 
 
 # Фикстура для создания нового заказа, которая готовит данные для заказа и возвращает для использования в тестах.
