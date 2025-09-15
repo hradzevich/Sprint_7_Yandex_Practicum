@@ -12,12 +12,12 @@ class TestCreateCourier:
         "Запрос возвращает статус-код 201 и тело ответа {'ok': True}. "
     )
     def test_create_new_courier_with_all_fields_success(
-        self, courier_registration_data
+        self, temporary_courier
     ):
         with allure.step("Создание нового курьера"):
             register_response, _ = (
                 CourierMethods.register_new_courier_and_return_courier_data(
-                    courier_registration_data
+                    temporary_courier
                 )
             )
 
@@ -39,10 +39,10 @@ class TestCreateCourier:
         "Запрос возвращает статус-код 201 и тело ответа {'ok': True}. "
     )
     def test_create_new_courier_with_all_required_fields_success(
-        self, courier_registration_data
+        self, temporary_courier
     ):
         with allure.step("Создание нового курьера без имени"):
-            data_without_login = courier_registration_data
+            data_without_login = temporary_courier
             data_without_login["firstName"] = ""
             register_response, _ = (
                 CourierMethods.register_new_courier_and_return_courier_data(
@@ -65,11 +65,11 @@ class TestCreateCourier:
         "Попытка создать курьера с логином, который уже используется в системе."
         "Запрос возвращает 409 и сообщение об ошибке."
     )
-    def test_create_courier_existing_login_error(self, courier_registration_data):
+    def test_create_courier_existing_login_error(self, temporary_courier):
         with allure.step("Создаём курьера с уникальными данными"):
             _, courier_data = (
                 CourierMethods.register_new_courier_and_return_courier_data(
-                    courier_registration_data
+                    temporary_courier
                 )
             )
             existing_login = courier_data["login"]
@@ -100,10 +100,10 @@ class TestCreateCourier:
     )
     @pytest.mark.parametrize("key", ["login", "password"])
     def test_create_new_courier_without_reqiured_login_or_password(
-        self, key, courier_registration_data
+        self, key, temporary_courier
     ):
         with allure.step(f"Создание нового курьера без {key}"):
-            data_with_empty_required = courier_registration_data
+            data_with_empty_required = temporary_courier
             data_with_empty_required[key] = ""
             register_response, _ = (
                 CourierMethods.register_new_courier_and_return_courier_data(

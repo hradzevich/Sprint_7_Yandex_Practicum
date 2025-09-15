@@ -31,7 +31,7 @@ def generare_order_data():
     first_name = translit(fake.first_name(), "ru", reversed=True)
     last_name = translit(fake.last_name(), "ru", reversed=True)
     address = translit(fake.address(), "ru", reversed=True)
-    metro_station = r.randint(1, 20)
+    metro_station = r.randint(1, 237)
     phone = fake.numerify("+7 ### ### ## ##")
     rent_time = r.randint(1, 7)
     delivery_date = (datetime.now() + timedelta(days=r.randint(1, 7))).strftime(

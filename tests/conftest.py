@@ -4,10 +4,10 @@ from courier_methods import CourierMethods
 from orders_methods import OrderMethods
 
 
-# Фикстура для генерации данных нового курьера для теста, которые возращает в тест для создания курьера.
-# Затем логинится с его логином и паролем, получает courier_id для удаления курьера и удаляет.
+# Фикстура, которая генерирует данные для создания курьера и возращает в тест для создания курьера.
+# Затем логинится с его логином и паролем, получает courier_id для удаления курьера и удаляет курьера после теста.
 @pytest.fixture
-def courier_registration_data():
+def temporary_courier():
     data = generate_courier_data()
 
     yield data
@@ -19,45 +19,33 @@ def courier_registration_data():
     login_response = CourierMethods.login_courier(credentials)
     courier_id = login_response.json().get("id")
 
-    if courier_id is not None:
+    if courier_id:
         CourierMethods.delete_courier(courier_id)
 
 
-# Фикстура для создания нового курьера, которая регистрирует курьера через API и возвращает его логин и пароль 
-# для использования в тестах. После завершения теста удаляет курьера. 
+# Фикстура для создания нового курьера, которая регистрирует курьера через API и возвращает его логин и пароль
+# для использования в тестах.
 @pytest.fixture
-def registered_courier():
-    data = generate_courier_data()
-    _, courier_data = CourierMethods.register_new_courier_and_return_courier_data(data)
+def registered_courier(temporary_courier):
+    _, courier_data = CourierMethods.register_new_courier_and_return_courier_data(
+        temporary_courier
+    )
     credentials = {
         "login": courier_data["login"],
         "password": courier_data["password"],
     }
 
-    yield credentials
-
-    login_response = CourierMethods.login_courier(credentials)
-    courier_id = login_response.json().get("id")
-    if courier_id is not None:
-        CourierMethods.delete_courier(courier_id)
+    return credentials
 
 
 # Фикстура для создания нового курьера, которая регистрирует курьера через API, логинится с его логином и паролем,
-# получает courier_id и возвращает для использования в тестах. Если в тесте курьер не был удален, повторная попытка удаления. 
+# получает courier_id и возвращает для использования в тестах.
 @pytest.fixture
-def logged_in_courier():
-    data = generate_courier_data()
-    _, courier_data = CourierMethods.register_new_courier_and_return_courier_data(data)
-    credentials = {
-        "login": courier_data["login"],
-        "password": courier_data["password"],
-    }
-    login_response = CourierMethods.login_courier(credentials)
+def logged_in_courier(registered_courier):
+    login_response = CourierMethods.login_courier(registered_courier)
     courier_id = login_response.json().get("id")
 
-    yield courier_id
-
-    CourierMethods.delete_courier(courier_id)
+    return courier_id
 
 
 # Фикстура для создания нового заказа, которая готовит данные для заказа и возвращает для использования в тестах.
