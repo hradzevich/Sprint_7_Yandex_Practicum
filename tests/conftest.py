@@ -51,21 +51,20 @@ def logged_in_courier(registered_courier):
 # Фикстура для создания нового заказа, которая готовит данные для заказа и возвращает для использования в тестах.
 # Затем получает номер заказа 'track' и отменяет заказ.
 @pytest.fixture
-def order_body():
+def temporary_order():
     data = generare_order_data()
     holder = {"body": data, "track": None}
 
     yield holder
 
-    if holder["track"] is not None:
+    if holder["track"]:
         OrderMethods.cancel_order(str(holder["track"]))
 
 
 # Фикстура для создания нового заказа, которая готовит данные для заказа, создает новый заказ и возвращает
 # номер заказа 'track' для использования в тестах.
 @pytest.fixture
-def order():
-    data = generare_order_data()
-    _, track = OrderMethods.create_new_order(data)
+def created_order_track(temporary_order):
+    _, track = OrderMethods.create_new_order(temporary_order["body"])
 
     return track

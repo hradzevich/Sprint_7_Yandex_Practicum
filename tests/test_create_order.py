@@ -21,13 +21,15 @@ class TestCreateOrder:
             [],
         ],
     )
-    def test_create_new_order_success(self, color_option, order_body):
+    def test_create_new_order_success(self, color_option, temporary_order):
         with allure.step("Создание нового заказа"):
-            order_body_with_scooter_color = modify_order_data(order_body, color_option)
+            order_body_with_scooter_color = modify_order_data(
+                temporary_order, color_option
+            )
             create_order_response, track = OrderMethods.create_new_order(
                 order_body_with_scooter_color
             )
-            order_body["track"] = track
+            temporary_order["track"] = track
 
         with allure.step("Проверяем код ответа"):
             assert (
@@ -36,5 +38,5 @@ class TestCreateOrder:
 
         with allure.step("Проверяем тело ответа"):
             assert (
-                "track" in create_order_response.json()
-            ), f"Ожидали наличие ключа 'track' в ответе, получили {create_order_response.json()}"
+                "track" in create_order_response.json() and track != ""
+            ), f"Ожидали наличие ключа 'track' с непустым значением в ответе, получили {create_order_response.json()}"

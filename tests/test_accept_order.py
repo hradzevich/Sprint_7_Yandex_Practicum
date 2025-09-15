@@ -11,12 +11,12 @@ class TestAcceptOrder:
         "Тест проверяет, что курьер может принять заказ. "
         "Проверяется статус-код 200 и корректное тело ответа."
     )
-    def test_accept_order_success(self, order, registered_courier):
+    def test_accept_order_success(self, created_order_track, logged_in_courier):
         with allure.step("Получаем идентификатор заказа по номеру"):
-            order_id = OrderMethods.get_order_by_number(order)
+            _, order_id = OrderMethods.get_order_by_number(created_order_track)
 
         with allure.step("Присваиваем курьеру заказ"):
-            courier_id = registered_courier
+            courier_id = logged_in_courier
             accept_order_response = OrderMethods.accept_order(order_id, courier_id)
 
         with allure.step("Проверяем код ответа"):

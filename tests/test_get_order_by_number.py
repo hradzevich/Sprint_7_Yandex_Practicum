@@ -11,9 +11,11 @@ class TestGetOrderInfoByNumber:
         "Тест проверяет, что заказ можно получить по его трек-номеру. "
         "Проверяется статус-код ответа и что поле 'order' присутствует и является списком."
     )
-    def test_get_order_info_by_number_success(self, order):
+    def test_get_order_info_by_number_success(self, created_order_track):
         with allure.step("Получить заказ по его номеру"):
-            get_order_info_response, _ = OrderMethods.get_order_by_number(order)
+            get_order_info_response, _ = OrderMethods.get_order_by_number(
+                created_order_track
+            )
 
         with allure.step("Проверяем код ответа"):
             assert (
@@ -31,9 +33,11 @@ class TestGetOrderInfoByNumber:
         "Тест проверяет, что запрос на получение информации о заказе без указания номера заказа"
         "возвращает ошибку с кодом 400 с соответствующим сообщением."
     )
-    def test_get_order_info_no_number_error(self, order):
+    def test_get_order_info_no_number_error(self, created_order_track):
         with allure.step("Подготовка данных: удаляем трек из заказа"):
-            order_without_track = set_track_in_order_data_new_value(order, "")
+            order_without_track = set_track_in_order_data_new_value(
+                created_order_track, ""
+            )
 
         with allure.step("Получить заказ без номера заказа"):
             get_order_info_response, _ = OrderMethods.get_order_by_number(
@@ -55,12 +59,11 @@ class TestGetOrderInfoByNumber:
         "Тест проверяет, что запрос на получение информации о заказе с несуществующим номером "
         "возвращает ошибку с кодом 404 с соответствующим сообщением."
     )
-    def test_get_order_info_nonexisting_number_error(self, order):
+    def test_get_order_info_nonexisting_number_error(self, created_order_track):
         with allure.step("Подготовка данных: заменяем значение на несуществующее"):
-            existing_track = order
-            nonexisting_track = existing_track + 99999
+            nonexisting_track_value = created_order_track + 99999
             order_with_nonexisting_track = set_track_in_order_data_new_value(
-                order, nonexisting_track
+                created_order_track, nonexisting_track_value
             )
 
         with allure.step("Получить заказ c несуществующим номером"):
