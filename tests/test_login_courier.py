@@ -1,11 +1,13 @@
 import pytest
 import allure
 from courier_methods import CourierMethods
-from generators import *
 from data import CourierMessages
 from helper import *
 
 
+@allure.parent_suite("API тесты Яндекс.Самокат")
+@allure.suite("Courier")
+@allure.sub_suite("Логин курьера в системе")
 class TestLoginCourier:
     @allure.title("Успешный логин существующего курьера")
     @allure.description(

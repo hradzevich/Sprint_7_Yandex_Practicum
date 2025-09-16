@@ -27,7 +27,7 @@ def generate_courier_data():
 
 
 # Генерирует необходимые для данные создания заказа без цвета
-def generare_order_data():
+def generate_order_data():
     first_name = translit(fake.first_name(), "ru", reversed=True)
     last_name = translit(fake.last_name(), "ru", reversed=True)
     address = translit(fake.address(), "ru", reversed=True)

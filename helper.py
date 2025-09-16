@@ -8,7 +8,7 @@ fake = Faker("ru_RU")
 
 # Функция изменяет данные на нужное значение.
 # Используется для тестирования негативных сценариев.
-def get_nonexisting_value(existing_value, offset=99999):
+def get_nonexisting_value(existing_value, offset=999999):
 
     return existing_value + offset
 

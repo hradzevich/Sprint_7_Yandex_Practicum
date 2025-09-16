@@ -2,10 +2,12 @@ from generators import *
 from data import CourierMessages
 from courier_methods import CourierMethods
 import allure
-from urls import *
 from helper import *
 
 
+@allure.parent_suite("API тесты Яндекс.Самокат")
+@allure.suite("Courier")
+@allure.sub_suite("Удаление курьера")
 class TestDeleteCourier:
     @allure.title("Успешное удаление курьера")
     @allure.description(

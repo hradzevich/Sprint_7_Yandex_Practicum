@@ -50,16 +50,25 @@ def logged_in_courier(registered_courier):
 
 # Фикстура для подготовки данных нового заказа.
 # Возвращает словарь с телом заказа и пустым треком.
-# После теста, если трек присвоен, отменяет заказ через API.
+# После теста, если трек не присвоен. то отменяет заказ, если присвоен - завершает заказ через API.
+# 0 — заказ создан, 1 — принят.
 @pytest.fixture
 def temporary_order():
-    data = generare_order_data()
+    data = generate_order_data()
     holder = {"body": data, "track": None}
 
     yield holder
 
-    if holder["track"] is not None:
-        OrderMethods.cancel_order(str(holder["track"]))
+    track = holder["track"]
+    if track is not None:
+        response, order_id = OrderMethods.get_order_by_number(track)
+        if response.status_code == 200:
+            order_info = response.json().get("order", {})
+            status = order_info.get("status")
+            if status == 0:
+                OrderMethods.cancel_order(track)
+            elif status == 1 and order_id is not None:
+                OrderMethods.complete_order(order_id)
 
 
 # Фикстура для создания заказа через API.
@@ -67,6 +76,7 @@ def temporary_order():
 @pytest.fixture
 def created_order_track(temporary_order):
     _, track = OrderMethods.create_new_order(temporary_order["body"])
+    temporary_order["track"] = track
 
     return track
 
@@ -75,6 +85,6 @@ def created_order_track(temporary_order):
 # Использует созданный заказ и возвращает его order_id для тестов.
 @pytest.fixture
 def created_order_id(created_order_track):
-    response, order_id = OrderMethods.get_order_by_number(created_order_track)
+    _, order_id = OrderMethods.get_order_by_number(created_order_track)
 
     return order_id

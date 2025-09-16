@@ -1,11 +1,12 @@
-import pytest
 import allure
 from orders_methods import OrderMethods
-from generators import *
 from helper import *
 from data import OrderMessages
 
 
+@allure.parent_suite("API тесты Яндекс.Самокат")
+@allure.suite("Orders")
+@allure.sub_suite("Принять заказ")
 class TestAcceptOrder:
     @allure.title("Успешное принятие заказа курьером")
     @allure.description(
@@ -99,7 +100,7 @@ class TestAcceptOrder:
         self, logged_in_courier, order_id=None
     ):
         with allure.step("Присваиваем курьеру заказ"):
-            accept_order_response = OrderMethods.accept_order(logged_in_courier)
+            accept_order_response = OrderMethods.accept_order(logged_in_courier, order_id)
 
         with allure.step("Проверяем код ответа"):
             assert (
@@ -114,7 +115,7 @@ class TestAcceptOrder:
 
     @allure.title("Ошибка при принятии заказа без courier_id")
     @allure.description(
-        "Проверяет, что присвоение курьеру заказа без указания courier_id"
+        "Проверяет, что присвоение курьеру заказа без указания courier_id "
         "возвращает код 400 и ожидаемое сообщение об ошибке."
     )
     def test_accept_order_without_courier_id_error(

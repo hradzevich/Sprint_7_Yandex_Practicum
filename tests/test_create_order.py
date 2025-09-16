@@ -1,10 +1,12 @@
 import pytest
 import allure
 from orders_methods import OrderMethods
-from generators import *
 from helper import *
 
 
+@allure.parent_suite("API тесты Яндекс.Самокат")
+@allure.suite("Orders")
+@allure.sub_suite("Создание заказа")
 class TestCreateOrder:
     @allure.title("Успешное создание нового заказа")
     @allure.description(

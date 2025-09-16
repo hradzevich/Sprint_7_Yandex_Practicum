@@ -27,3 +27,6 @@ GET_ORDER_BY_NUMBER = f"{BASE_URL}/api/v1/orders/track"
 
 # Получение списка заказов
 GET_LIST_OF_ORDERS = f"{BASE_URL}/api/v1/orders"
+
+# Завершить заказ
+COMPLETE_ORDER = f"{BASE_URL}/api/v1/orders/finish"

@@ -1,8 +1,10 @@
 import allure
 from orders_methods import OrderMethods
-from generators import *
 
 
+@allure.parent_suite("API тесты Яндекс.Самокат")
+@allure.suite("Orders")
+@allure.sub_suite("Список заказов")
 class TestGetListOfOrders:
     @allure.title("Получение списка всех заказов без фильтров")
     @allure.description(

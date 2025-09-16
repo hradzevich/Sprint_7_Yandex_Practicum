@@ -6,6 +6,9 @@ from data import CourierMessages
 from helper import *
 
 
+@allure.parent_suite("API тесты Яндекс.Самокат")
+@allure.suite("Courier")
+@allure.sub_suite("Создание курьера")
 class TestCreateCourier:
     @allure.title("Успешное создание курьера при передаче всех возможных данных")
     @allure.description(

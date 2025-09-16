@@ -38,6 +38,12 @@ class OrderMethods:
         return create_order_response, track
 
     @staticmethod
+    @allure.step("Завершить заказ")
+    def complete_order(order_id):
+        complete_order_response = requests.put(f"{COMPLETE_ORDER}/{order_id}")
+        return complete_order_response
+
+    @staticmethod
     @allure.step("Получение списка заказов с возможной фильтрацией")
     def get_list_of_orders(courierId=None, nearestStation=None, limit=30, page=0):
         params = {}

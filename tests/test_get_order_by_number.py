@@ -1,10 +1,13 @@
 import allure
 from orders_methods import OrderMethods
-from generators import *
 from helper import *
 from data import OrderMessages
 
 
+
+@allure.parent_suite("API тесты Яндекс.Самокат")
+@allure.suite("Orders")
+@allure.sub_suite("Получить заказ по его номеру")
 class TestGetOrderInfoByNumber:
     @allure.title("Успешное получение информации о заказе по номеру")
     @allure.description(
