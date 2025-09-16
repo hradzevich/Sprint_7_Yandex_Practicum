@@ -28,7 +28,9 @@ class OrderMethods:
 
     @staticmethod
     @allure.step("Создание нового заказа")
-    def create_new_order(data):
+    def create_new_order(data, color=None):
+        if color is not None:
+            data["color"] = color
         create_order_response = requests.post(CREATE_ORDER, json=data)
         track = None
         if create_order_response.status_code == 201:

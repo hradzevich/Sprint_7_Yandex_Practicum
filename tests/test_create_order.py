@@ -9,25 +9,17 @@ class TestCreateOrder:
     @allure.title("Успешное создание нового заказа")
     @allure.description(
         "Тест проверяет успешное создание нового заказа с разными цветами самоката. "
-        "В параметрах передаются: один цвет, несколько цветов или пустой список. "
-        "Проверяется, что заказ создаётся с кодом ответа 201 и возвращается ключ 'track'."
+        "В параметрах можно указать один цвет, несколько цветов или вовсе не указывать цвет. "
+        "Проверяется, что заказ создаётся с кодом ответа 201 и в теле ответа возвращается ключ 'track'."
     )
     @pytest.mark.parametrize(
         "color_option",
-        [
-            ["BLACK"],
-            ["GREY"],
-            ["BLACK, GREY"],
-            [],
-        ],
+        [["BLACK"], ["GREY"], ["BLACK, GREY"], None],
     )
     def test_create_new_order_success(self, color_option, temporary_order):
         with allure.step("Создание нового заказа"):
-            order_body_with_scooter_color = modify_data(
-                temporary_order, "color", color_option
-            )
             create_order_response, _ = OrderMethods.create_new_order(
-                order_body_with_scooter_color
+                temporary_order, color_option
             )
 
         with allure.step("Проверяем код ответа"):

@@ -26,7 +26,7 @@ def generate_courier_data():
     }
 
 
-# Генерирует необходимые для данные создания заказа
+# Генерирует необходимые для данные создания заказа без цвета
 def generare_order_data():
     first_name = translit(fake.first_name(), "ru", reversed=True)
     last_name = translit(fake.last_name(), "ru", reversed=True)
@@ -38,7 +38,6 @@ def generare_order_data():
         "%Y-%m-%d"
     )
     comment = r.choice([fake.sentence(nb_words=6), ""])
-    color = ""
 
     return {
         "firstName": first_name,
@@ -49,5 +48,4 @@ def generare_order_data():
         "rentTime": rent_time,
         "deliveryDate": delivery_date,
         "comment": comment,
-        "color": [color],
     }
