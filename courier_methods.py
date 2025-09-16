@@ -25,9 +25,7 @@ class CourierMethods:
         register_response = requests.post(CREATE_COURIER, json=data)
         courier_data = None
         if register_response.status_code == 201:
-            courier_data = {
-                "login": data["login"],
-                "password": data["password"],
-                "first_name": data["firstName"],
-            }
+            courier_data = {"login": data["login"], "password": data["password"]}
+            if "firstName" in data:
+                courier_data["first_name"] = data["firstName"]
         return register_response, courier_data

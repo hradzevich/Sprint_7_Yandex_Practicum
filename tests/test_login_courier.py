@@ -29,8 +29,10 @@ class TestLoginCourier:
             assert (
                 "id" in login_response.json()
             ), f"Ожидали наличие ключа 'id' в ответе, получили {login_response.json()}"
-            assert login_response.json()["id"], f"Ожидали, что 'id' не пустой, получили {login_response.json()['id']}"
-    
+            assert login_response.json()[
+                "id"
+            ], f"Ожидали, что 'id' не пустой, получили {login_response.json()['id']}"
+
     @allure.title("Ошибка при логине курьера с неверным логином или паролем")
     @allure.description(
         "Тест проверяет, что при попытке логина с неверным login или password "
@@ -73,7 +75,7 @@ class TestLoginCourier:
                 "login": registered_courier["login"],
                 "password": registered_courier["password"],
             }
-            empty_credentials = modify_data(credentials, key, "")
+            empty_credentials = prepare_data_without_field(credentials, key)
             login_response = CourierMethods.login_courier(empty_credentials)
 
         with allure.step("Проверяем код ответа"):

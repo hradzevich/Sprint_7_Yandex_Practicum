@@ -1,5 +1,6 @@
 from faker import Faker
 import random as r
+import string
 from datetime import datetime, timedelta
 from transliterate import translit
 
@@ -9,15 +10,15 @@ fake = Faker("ru_RU")
 
 # Генерирует необходимые для данные создания курьера
 def generate_courier_data():
-    first_name = fake.first_name()
-    login = first_name + str(r.randint(1, 100))
-    password = fake.password(
-        length=10,
-        special_chars=True,
-        digits=True,
-        upper_case=True,
-        lower_case=True,
-    )
+    def generate_random_string(length):
+        letters = string.ascii_lowercase
+        random_string = "".join(r.choice(letters) for i in range(length))
+        return random_string
+
+    login = generate_random_string(10)
+    password = generate_random_string(10)
+    first_name = generate_random_string(10)
+
     return {
         "login": login,
         "password": password,

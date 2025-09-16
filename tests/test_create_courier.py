@@ -41,7 +41,9 @@ class TestCreateCourier:
         self, temporary_courier
     ):
         with allure.step("Создание нового курьера без имени"):
-            data_without_login = modify_data(temporary_courier, "firstName", "")
+            data_without_login = prepare_data_without_field(
+                temporary_courier, "firstName"
+            )
             register_response, _ = (
                 CourierMethods.register_new_courier_and_return_courier_data(
                     data_without_login
@@ -101,7 +103,9 @@ class TestCreateCourier:
         self, key, temporary_courier
     ):
         with allure.step(f"Создание нового курьера без {key}"):
-            data_with_empty_required = modify_data(temporary_courier, key, "")
+            data_with_empty_required = prepare_data_without_field(
+                temporary_courier, key
+            )
             register_response, _ = (
                 CourierMethods.register_new_courier_and_return_courier_data(
                     data_with_empty_required
